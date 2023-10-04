@@ -1,5 +1,6 @@
 {
   "compilerOptions": {
+    "experimentalDecorators":true,
     "target": "ES2020",
     "useDefineForClassFields": true,
     "lib": ["ES2020", "DOM", "DOM.Iterable"],
@@ -17,7 +18,8 @@
     "baseUrl": "src",
     "paths": {
       "@/*": ["src/*"],
-      "@/component/*":["component/*"]
+      "@/component/*":["component/*"],
+      "@/shared/*":["shared/*"]
     },
     /* Linting */
     "strict": true,

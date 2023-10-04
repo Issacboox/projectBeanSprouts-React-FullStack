@@ -1,99 +1,90 @@
-// import React from "react";
+import { FormEvent, useEffect, useState } from "react";
+import { remult } from "remult";
+import { Task } from '@/shared/task';
+import { TaskController } from "@/shared/TaskController";
 
-type Props = {};
+const taskRepo = remult.repo(Task);
 
-export default function Report({}: Props) {
+export default function Report() {
+  const [tasks, setTasks] = useState<Task[]>([]);
+  const [newTaskTitle, setNewTaskTitle] = useState("")
+  useEffect(() => {
+    return taskRepo.liveQuery({
+       where :{
+        complete:undefined,
+       }
+    }).subscribe(info=>setTasks(info.applyChanges));
+  }, []); // Add an empty dependency array here
+
+  async function addTask(e: FormEvent<HTMLFormElement>) {
+    e.preventDefault()
+    try {
+      const newTask = await taskRepo.insert({ title: newTaskTitle });
+      setTasks((tasks) => [...tasks, newTask]);
+      setNewTaskTitle("")
+    }
+    catch (error: any) {
+      alert(error.message)
+    }
+  }
+
+  async function setAllCompleted(complete: boolean) {
+   await TaskController.setAllCompleted(complete);
+  }
+
   return (
     <div className="content">
-      <div className="topicRepo">
-        <p className="topic">แจ้งปัญหา หรือ เสนอแนะ</p>
-        <p className="mb-3">
-          ** เมื่อทางร้านได้รับข้อมูลจะรีบทำการตรวจสอบ
-          และนำคำแนะนำของลูกค้ามาปรับปรุง ให้มีประสิทธิภาพมากขึ้น
-          ขอบคุณที่ไว้วางใจเรา **
-        </p>
-      </div>
-      <div className="reportfrom ">
-        <div className="row">
-          <div className="container mb-3">
-            <div className="radio-tile-group">
-              <div className="input-container">
-                <input
-                  id="problem"
-                  className="radio-button"
-                  type="radio"
-                  name="radio"
-                />
-                <div className="radio-tile">
-                  <div className="icon walk-icon">
-                    <img
-                      src="https://icon-library.com/images/problem-icon-png/problem-icon-png-18.jpg"
-                      alt=""
-                      width={50}
-                    />
-                  </div>
-                  <label htmlFor="problem" className="radio-tile-label">
-                    แจ้งปัญหา
-                  </label>
-                </div>
-              </div>
+      <h1>Test Todo Backend</h1>
+      <main>
+      {taskRepo.metadata.apiInsertAllowed() &&   (<form className="mt-3" onSubmit={e => addTask(e)}>
+          <input className="form-control" value={newTaskTitle} placeholder="What need to be done" onChange={(e) => setNewTaskTitle(e.target.value)} />
+          <button className="btn btn-success btn-sm mt-2">Add</button>
+        </form>)}
+        {tasks.map((task) => {
 
-              <div className="input-container">
-                <input
-                  id="suggest"
-                  className="radio-button"
-                  type="radio"
-                  name="radio"
-                />
-                <div className="radio-tile">
-                  <div className="icon bike-icon">
-                    <img
-                      src="https://cdn-icons-png.flaticon.com/512/5807/5807413.png"
-                      alt=""
-                      width={50}
-                    />
-                  </div>
-                  <label htmlFor="suggest" className="radio-tile-label">
-                    เสนอแนะ
-                  </label>
-                </div>
-              </div>
+          async function deleteTask() {
+            try {
+              await taskRepo.delete(task);
+              setTasks((tasks) => tasks.filter((t) => t !== task));
+            }
+            catch (error: any) {
+              alert(error.message)
+            }
+          }
+
+          function updateTask(newValue: Task) {
+            setTasks((tasks) =>
+              tasks.map((task) => (task.id === newValue.id ? newValue : task))
+            );
+          }
+          async function setCompleted(complete: boolean) {
+            updateTask(await taskRepo.save({ ...task, complete }))
+          }
+          function setTitle(title: string) {
+            updateTask({ ...task, title })
+          }
+          async function doSaveTask() {
+            try {
+              updateTask(await taskRepo.save(task));
+            } 
+            catch (error:any) {
+              alert(error.message)
+            }
+          }
+          return (
+            <div key={task.id}>
+              <input className="mt-3 me-3" type="checkbox" checked={task.complete} onChange={e => setCompleted(e.target.checked)} />
+              <input value={task.title} onChange={e => setTitle(e.target.value)} />
+              <button className="btn btn-success btn-sm ms-4" onClick={() => doSaveTask()} >Save</button>
+              {taskRepo.metadata.apiDeleteAllowed() && (<button className="btn btn-success btn-sm ms-4" onClick={() => deleteTask()}>Delete</button>)}
             </div>
-          </div>
-
-          <div className="mb-3 mt-2">
-            <label htmlFor="topicRepo" className="form-label">
-              หัวข้อ *
-            </label>
-            <input type="text" className="form-control" id="topicRepo" />
-          </div>
-          <div className="mb-3">
-            <label htmlFor="reportDesc" className="form-label">
-              รายละเอียด *
-            </label>
-            <textarea
-              className="form-control"
-              id="reportDesc"
-              rows={5}
-              placeholder="โปรดระบุ"
-            ></textarea>
-          </div>
-          <div className="mb-3">
-            <label htmlFor="formFile" className="form-label">
-              แนปไฟล์
-            </label>
-            <input className="form-control" type="file" id="formFile" />
-          </div>
-          <div className="mb-3 buttonConfirm">
-            <button
-              className=" mt-2 btn btn-success"
-              style={{ width: "150px" }}
-            >
-              ยืนยันและส่ง
-            </button>
-          </div>
+          );
+        })}
+        <div className="mt-4">
+          <button className="btn btn-success btn-sm me-3" onClick={() => setAllCompleted(true)}> Set all complete</button>
+          <button className="btn btn-success btn-sm" onClick={() => setAllCompleted(false)}> Set all uncomplete</button>
         </div>
-      </div>
+      </main>
     </div>
   );
 }

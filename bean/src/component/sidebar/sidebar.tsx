@@ -27,7 +27,7 @@ const Sidebar: React.FC = () => {
           <li>
             <NavLink to="/Store" >
               <img src={store} alt="" width={25} className="mr-2" />
-              ร้านค้า
+              รายการสินค้า
             </NavLink>
           </li>
           <li>
@@ -54,6 +54,7 @@ const Sidebar: React.FC = () => {
               แจ้งปัญหา/เสนอแนะ
             </NavLink>
           </li>
+          
           <li>
             <NavLink to="/Logut" >
               <img src={checkOut} alt="" width={25} className="mr-2" />

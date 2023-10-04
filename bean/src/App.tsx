@@ -3,11 +3,11 @@ import {
   createBrowserRouter,
   RouterProvider,
   Outlet,
-} 
-from 'react-router-dom';
+}
+  from 'react-router-dom';
 
 import 'bootstrap/dist/css/bootstrap.min.css'; // Import Bootstrap CSS
-import './index.css'; // Import your custom styles
+import './App.css'; // Import your custom styles
 import Sidebar from './component/sidebar/sidebar.tsx';
 import MobileSidebar from './component/sidebar/sidebar_mobile.tsx';
 import Home from './component/pages/Dashboard.tsx';
