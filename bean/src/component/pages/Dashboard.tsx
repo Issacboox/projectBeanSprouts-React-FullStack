@@ -87,7 +87,7 @@ export default function Dashboard({ }: Props) {
       </div>
       <div className="HowTo mt-4 d-md-flex flex-wrap">
         <div className="col-md-6 col-sm-12">
-          <img src={how} alt="How to buy" className="" />
+          <img src={how} alt="How to buy" className="chatbotimg" />
         </div>
         <hr></hr>
         <div className="col-md-6 col-sm-12 mt-3 mt-md-0">

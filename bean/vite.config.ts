@@ -4,10 +4,9 @@ import * as path from 'path'
 
 export default defineConfig({
   server: {
-    port: 3000,
-    proxy: {
-      '/api': 'http://localhost:3002'
-    }
+    // proxy: {
+    //   '/api': 'http://localhost:3002'
+    // }
   },
   plugins: [react()],
   resolve: {

@@ -134,7 +134,7 @@ export default function ProductManagement() {
 
   return (
     <div className="content">
-      <h1>Product Management</h1>
+      <h1>Test add Product</h1>
       <main>
         <form className="mt-3" onSubmit={(e) => addProduct(e)}>
           <input

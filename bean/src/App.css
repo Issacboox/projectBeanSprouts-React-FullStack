@@ -41,9 +41,9 @@
   margin-top: -50px;
 }
 
-@import 'tailwindcss/base';
+/* @import 'tailwindcss/base';
 @import 'tailwindcss/components';
-@import 'tailwindcss/utilities';
+@import 'tailwindcss/utilities'; */
 
 #root { 
   margin-top: 3%;
@@ -111,7 +111,9 @@
   border-radius: 1px 1px 1px 20px;
   font-weight: 600;
 }
-
+.chatbotimg{
+  width: 100%;
+}
 /* แสดงรูปไอคอน sidebar เมื่อขนาดหน้าจอเล็กลง (max-width: 768px) */
 @media (max-width: 768px) {
   .navbar {
@@ -490,6 +492,7 @@
   font-size: medium;
   font-weight: 600;
   padding: 10px;
+  padding-bottom: 0px;
   border-radius: 0px 0px 15px 15px;
   margin-bottom: 10px;
   position: relative;
@@ -571,3 +574,23 @@
     text-decoration: none;
   }
 }
+
+
+
+.containerform {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 90vh;
+}
+
+.loginForm {
+  width: 300px;
+}
+
+.bf-form{
+    background-color: #2b6e526b;
+    padding: 49px 0px;
+    border-radius: 20px;
+}
+

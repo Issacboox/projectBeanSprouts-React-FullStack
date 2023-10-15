@@ -14,7 +14,7 @@ const Sidebar: React.FC = () => {
   return (
     <div className="sidebar">
       <div className="myLogo">
-        <img src={logo} alt="" />
+        <img src={logo} alt="" width={270} />
       </div>
 
       <nav>
@@ -51,7 +51,7 @@ const Sidebar: React.FC = () => {
           <li>
             <NavLink to="/Report" >
               <img src={error} alt="" width={25} className="mr-2" />
-              แจ้งปัญหา/เสนอแนะ
+              ทดสอบเพิ่มสินค้า
             </NavLink>
           </li>
           

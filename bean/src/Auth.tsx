@@ -1,6 +1,7 @@
 import App from "./App.tsx";
 import { FormEvent, useEffect, useState } from "react";
 import { remult } from "remult";
+// import Register from "Register.tsx";
 
 export default function Auth() {
     const [username, setUsername] = useState("");
@@ -28,8 +29,8 @@ export default function Auth() {
                 console.error("Error fetching /api/currentUser:", error);
             });
     }, []);
-    
-    
+
+
     if (!signIn) {
         async function doSignIn(e: FormEvent<HTMLFormElement>) {
             e.preventDefault();
@@ -57,27 +58,43 @@ export default function Auth() {
 
         }
         return <>
-            <h1>Sign in</h1>
-              <main>
-                <form className="form-control" onSubmit={(e) => doSignIn(e)}>
-                <label className="form-label">Username</label>
-                  <input
-                    className="form-control"
-                    value={username}
-                    onChange={(e) => setUsername(e.target.value)}
-                    placeholder="Input username"
-                  />
-                  <label className="form-label">Password</label>
-                  <input
-                    type="password"
-                    className="form-control"
-                    value={password}
-                    onChange={(e) => setPassword(e.target.value)}
-                    placeholder="Input password"
-                  />
-                  <button>Sign In</button>
-                </form>
-              </main>
+            <main>
+                <div className="containerform">
+                    <div className="row justify-content-center bf-form">
+                        <h1 className="topic-sign text-center mb-4"><b>Sign in</b></h1>
+                        
+                        <div className="col-md-6 loginForm">
+                  
+
+                            <form onSubmit={(e) => doSignIn(e)}>
+                                <div className="mb-3">
+                                    <label htmlFor="username" className="form-label"><b>Username</b></label>
+                                    <input
+                                        type="text"
+                                        id="username"
+                                        className="form-control"
+                                        value={username}
+                                        onChange={(e) => setUsername(e.target.value)}
+                                        placeholder="Input username"
+                                    />
+                                </div>
+                                <div className="mb-3">
+                                    <label htmlFor="password" className="form-label"><b>Password</b></label>
+                                    <input
+                                        type="password"
+                                        id="password"
+                                        className="form-control"
+                                        value={password}
+                                        onChange={(e) => setPassword(e.target.value)}
+                                        placeholder="Input password"
+                                    />
+                                </div> 
+                                <button type="submit" className="btn btn-success btn-block ">Sign In</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </main>
         </>
     }
     async function signOut() {
